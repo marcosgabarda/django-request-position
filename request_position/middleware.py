@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import Point
 
-from request_position import save_position, save_country_code
+from request_position.helpers import save_position, save_country_code
 from request_position.settings import DEFAULT_IP, POSITION_COOKIE_NAME, GEO_HEADER, DEFAULT_POSITION, USE_GIS_POINT, \
     OVERRIDE_LATITUDE_PARAM, OVERRIDE_LONGITUDE_PARAM, OVERRIDE_COUNTRY_CODE_PARAM, DEFAULT_COUNTRY_CODE
 

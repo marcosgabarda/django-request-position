@@ -14,6 +14,9 @@ with open(os.path.join(os.path.dirname(__file__), 'HISTORY.rst')) as history:
 # Allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+# # Add django settings
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'request_position.settings')
+
 # Dynamically calculate the version based on belt.VERSION.
 version = __import__('request_position').__version__
 
@@ -21,7 +24,7 @@ setup(
     name='django-request-position',
     version=version,
     packages=[
-        'django-request-position',
+        'request_position',
     ],
     include_package_data=True,
     license='MIT License',
