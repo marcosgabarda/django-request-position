@@ -6,13 +6,14 @@ import re
 from django.conf import settings
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import Point
+from django.utils.deprecation import MiddlewareMixin
 
 from request_position.helpers import save_position, save_country_code
 from request_position.settings import DEFAULT_IP, POSITION_COOKIE_NAME, GEO_HEADER, DEFAULT_POSITION, USE_GIS_POINT, \
     OVERRIDE_LATITUDE_PARAM, OVERRIDE_LONGITUDE_PARAM, OVERRIDE_COUNTRY_CODE_PARAM, DEFAULT_COUNTRY_CODE
 
 
-class RequestPositionMiddleware(object):
+class RequestPositionMiddleware(MiddlewareMixin):
     """Obtains the position associated to the request, and saves it in the
     request and in the current thread.
     """
@@ -82,7 +83,7 @@ class RequestPositionMiddleware(object):
         return response
 
 
-class RequestCountryMiddleware(object):
+class RequestCountryMiddleware(MiddlewareMixin):
     """Middleware to select the country of the request."""
 
     def process_request(self, request):
