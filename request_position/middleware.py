@@ -3,14 +3,13 @@ from __future__ import unicode_literals, print_function, division, absolute_impo
 
 import re
 
-from django.conf import settings
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import Point
 from django.utils.deprecation import MiddlewareMixin
 
 from request_position.helpers import save_position, save_country_code
 from request_position.settings import DEFAULT_IP, POSITION_COOKIE_NAME, GEO_HEADER, DEFAULT_POSITION, USE_GIS_POINT, \
-    OVERRIDE_LATITUDE_PARAM, OVERRIDE_LONGITUDE_PARAM, OVERRIDE_COUNTRY_CODE_PARAM, DEFAULT_COUNTRY_CODE
+    OVERRIDE_LATITUDE_PARAM, OVERRIDE_LONGITUDE_PARAM, OVERRIDE_COUNTRY_CODE_PARAM, DEFAULT_COUNTRY_CODE, REMOTE_ADDR_ATTR
 
 
 class RequestPositionMiddleware(MiddlewareMixin):
@@ -38,7 +37,7 @@ class RequestPositionMiddleware(MiddlewareMixin):
     @staticmethod
     def _header_position(request):
         header_position = None
-        raw_header_position = request.META.get(GEO_HEADER)
+        raw_header_position = request.META.get(GEO_HEADER, "")
         match = re.match("<geo:([-+]?\d+\.\d+);([-+]?\d+\.\d+)>", raw_header_position)
         if match:
             position = match.groups()
@@ -66,7 +65,7 @@ class RequestPositionMiddleware(MiddlewareMixin):
                 request_position = self._parse_position(position)
         is_approximate_location = request_position is None
         if is_approximate_location:
-            ip = request.META.get(settings.REMOTE_ADDR_ATTR, DEFAULT_IP)
+            ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
             g = GeoIP()
             request_position = self._parse_position(g.lat_lon(ip) or DEFAULT_POSITION)
 
@@ -90,7 +89,7 @@ class RequestCountryMiddleware(MiddlewareMixin):
         """Use the IP to obtain the country of the request. It can be override using
         a parameter in the request.
         """
-        ip = request.META.get(settings.REMOTE_ADDR_ATTR, DEFAULT_IP)
+        ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
         g = GeoIP()
         if request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM):
             country_code = request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM).lower()
