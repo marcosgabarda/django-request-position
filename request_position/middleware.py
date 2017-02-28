@@ -96,5 +96,8 @@ class RequestCountryMiddleware(MiddlewareMixin):
         else:
             country_code = g.country_code(ip)
         request.country = country_code or DEFAULT_COUNTRY_CODE
-        save_country_code(request.country.lower())
+        if request.country:
+            save_country_code(request.country.lower())
+        else:
+            save_country_code(request.country)
         return None

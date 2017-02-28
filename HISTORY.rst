@@ -8,6 +8,8 @@ History
 +++++++++++++++++
 
 * Fixed settings variables prefix.
+* Fixed problem with default REQUEST_POSITION_DEFAULT_COUNTRY_CODE value.
+* Added settings variables to README.
 
 1.0a4 (2017-2-28)
 +++++++++++++++++

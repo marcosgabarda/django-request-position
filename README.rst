@@ -26,3 +26,18 @@ Quick start
     MIDDLEWARE += (
         'request_position.middleware.RequestPositionMiddleware',
     )
+
+
+Settings
+--------
+
+* ``REQUEST_POSITION_REMOTE_ADDR_ATTR`` (default: "REMOTE_ADDR")
+* ``REQUEST_POSITION_DEFAULT_IP`` (default: "127.0.0.1")
+* ``REQUEST_POSITION_DEFAULT_POSITION`` (default: None)
+* ``REQUEST_POSITION_DEFAULT_COUNTRY_CODE`` (default: None)
+* ``REQUEST_POSITION_COOKIE_NAME`` (default: "_request_position")
+* ``REQUEST_POSITION_GEO_HEADER`` (default: "HTTP_GEOLOCATION")
+* ``REQUEST_POSITION_OVERRIDE_LATITUDE_PARAM`` (default "lat")
+* ``REQUEST_POSITION_OVERRIDE_LONGITUDE_PARAM`` (default "lon")
+* ``REQUEST_POSITION_OVERRIDE_COUNTRY_CODE_PARAM`` (default "cc")
+* ``REQUEST_POSITION_USE_GIS_POINT`` (default False)
