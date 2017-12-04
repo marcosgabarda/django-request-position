@@ -3,7 +3,7 @@ from __future__ import unicode_literals, print_function, division, absolute_impo
 
 import re
 
-from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.gis.geos import Point
 from django.utils.deprecation import MiddlewareMixin
 
@@ -66,7 +66,7 @@ class RequestPositionMiddleware(MiddlewareMixin):
         is_approximate_location = request_position is None
         if is_approximate_location:
             ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
-            g = GeoIP()
+            g = GeoIP2()
             request_position = self._parse_position(g.lat_lon(ip) or DEFAULT_POSITION)
 
         save_position(request_position)
@@ -90,7 +90,7 @@ class RequestCountryMiddleware(MiddlewareMixin):
         a parameter in the request.
         """
         ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
-        g = GeoIP()
+        g = GeoIP2()
         if request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM):
             country_code = request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM).lower()
         else:
