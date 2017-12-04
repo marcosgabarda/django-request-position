@@ -3,15 +3,20 @@
 History
 -------
 
+1.0a8 (2017-12-04)
++++++++++++++++++
+
+* Fixed error wile providing a IP that does not exists.
+
 1.0a7 (2017-12-04)
 +++++++++++++++++
 
-* Added ``geoip2`` requirement
+* Added ``geoip2`` requirement.
 
 1.0a6 (2017-12-04)
 +++++++++++++++++
 
-* Support for Django 2.0
+* Support for Django 2.0.
 
 1.0a5 (2017-2-28)
 +++++++++++++++++

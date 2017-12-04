@@ -6,6 +6,7 @@ import re
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.gis.geos import Point
 from django.utils.deprecation import MiddlewareMixin
+from geoip2.errors import AddressNotFoundError
 
 from request_position.helpers import save_position, save_country_code
 from request_position.settings import DEFAULT_IP, POSITION_COOKIE_NAME, GEO_HEADER, DEFAULT_POSITION, USE_GIS_POINT, \
@@ -67,7 +68,10 @@ class RequestPositionMiddleware(MiddlewareMixin):
         if is_approximate_location:
             ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
             g = GeoIP2()
-            request_position = self._parse_position(g.lat_lon(ip) or DEFAULT_POSITION)
+            try:
+                request_position = self._parse_position(g.lat_lon(ip))
+            except AddressNotFoundError:
+                request_position = self._parse_position(DEFAULT_POSITION)
 
         save_position(request_position)
         request.position = request_position
