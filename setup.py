@@ -48,5 +48,6 @@ setup(
     ],
     install_requires=[
         'django>=1.9',
+        'geoip2>=2.6',
     ]
 )
