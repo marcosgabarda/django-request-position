@@ -3,7 +3,12 @@
 History
 -------
 
-1.0a8 (2017-12-04)
+1.0a13 (2017-12-05)
++++++++++++++++++
+
+* Fixed problem with IP from ``HTTP_X_FORWARDED_FOR``
+
+1.0a12 (2017-12-04)
 +++++++++++++++++
 
 * Fixed error wile providing a IP that does not exists.

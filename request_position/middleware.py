@@ -5,6 +5,7 @@ import re
 
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.gis.geos import Point
+from django.core.exceptions import ValidationError
 from django.utils.deprecation import MiddlewareMixin
 from geoip2.errors import AddressNotFoundError
 
@@ -66,11 +67,11 @@ class RequestPositionMiddleware(MiddlewareMixin):
                 request_position = self._parse_position(position)
         is_approximate_location = request_position is None
         if is_approximate_location:
-            ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
-            g = GeoIP2()
             try:
+                ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP).split(",")[0]
+                g = GeoIP2()
                 request_position = self._parse_position(g.lat_lon(ip))
-            except AddressNotFoundError:
+            except (ValidationError, AddressNotFoundError):
                 request_position = self._parse_position(DEFAULT_POSITION)
 
         save_position(request_position)
@@ -93,13 +94,16 @@ class RequestCountryMiddleware(MiddlewareMixin):
         """Use the IP to obtain the country of the request. It can be override using
         a parameter in the request.
         """
-        ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP)
+        ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP).split(",")[0]
         g = GeoIP2()
         if request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM):
             country_code = request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM).lower()
         else:
-            country_code = g.country_code(ip)
-        request.country = country_code or DEFAULT_COUNTRY_CODE
+            try:
+                country_code = g.country_code(ip)
+            except (ValidationError, AddressNotFoundError):
+                country_code = DEFAULT_COUNTRY_CODE
+        request.country = country_code
         if request.country:
             save_country_code(request.country.lower())
         else:
