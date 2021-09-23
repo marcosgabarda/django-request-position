@@ -3,7 +3,7 @@
 History
 -------
 
-1.0.0 (2021-9-23)
+1.0.0 (2021-9-24)
 +++++++++++++++++
 
 * Adapt to modern Django versions
