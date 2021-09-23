@@ -1,4 +1,3 @@
-=======================
 Django Request Position
 =======================
 
@@ -14,7 +13,7 @@ Quick start
 
 **1** Install using pip::
 
-    pip install django-belt
+    pip install django-request-position
 
 **2** Add "request_position" to your INSTALLED_APPS settings like this::
 

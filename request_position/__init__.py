@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals, print_function, division, absolute_import
+__version__ = "1.0.0"
 
-from django import get_version
-
-
-VERSION = (1, 0, 0, 'alpha', 13)
-
-__version__ = get_version(VERSION)
+default_app_config = "request_position.apps.RequestPositionConfig"

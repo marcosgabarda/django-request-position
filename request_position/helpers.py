@@ -1,14 +1,15 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals, print_function, division, absolute_import
-
 from threading import local
+from typing import TYPE_CHECKING
 
-from request_position.settings import DEFAULT_POSITION, DEFAULT_COUNTRY_CODE
+from request_position.settings import DEFAULT_COUNTRY_CODE, DEFAULT_POSITION
+
+if TYPE_CHECKING:
+    from django.contrib.gis.geos import Point
 
 _active = local()
 
 
-def save_position(position):
+def save_position(position: "Point") -> None:
     """Saves given position in the current thread.
     :param position:
     :return:
@@ -16,7 +17,7 @@ def save_position(position):
     _active.position = position
 
 
-def get_position():
+def get_position() -> "Point":
     """Gets current position, saved in current thread.
     :return: tuple
     """
@@ -24,7 +25,7 @@ def get_position():
     return position
 
 
-def save_country_code(country_code):
+def save_country_code(country_code: str) -> None:
     """Saves given country_code in the current thread.
     :param country_code:
     :return:
@@ -32,10 +33,9 @@ def save_country_code(country_code):
     _active.country_code = country_code
 
 
-def get_country_code():
+def get_country_code() -> str:
     """Gets current country_code, saved in current thread.
     :return: tuple
     """
     country_code = getattr(_active, "country_code", DEFAULT_COUNTRY_CODE)
     return country_code
-
