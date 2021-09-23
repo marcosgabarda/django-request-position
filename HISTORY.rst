@@ -3,13 +3,18 @@
 History
 -------
 
-1.0a13 (2017-12-05)
+1.0.0 (2021-9-23)
 +++++++++++++++++
+
+* Adapt to modern Django versions
+
+1.0a13 (2017-12-05)
++++++++++++++++++++
 
 * Fixed problem with IP from ``HTTP_X_FORWARDED_FOR``
 
 1.0a12 (2017-12-04)
-+++++++++++++++++
++++++++++++++++++++
 
 * Fixed error wile providing a IP that does not exists.
 
@@ -19,7 +24,7 @@ History
 * Added ``geoip2`` requirement.
 
 1.0a6 (2017-12-04)
-+++++++++++++++++
+++++++++++++++++++
 
 * Support for Django 2.0.
 
