@@ -90,8 +90,8 @@ class RequestPositionMiddleware:
         if is_approximate_location:
             try:
                 ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP).split(",")[0]
-                g = GeoIP2()
-                request_position = self._parse_position(g.lat_lon(ip))
+                geo_ip = GeoIP2()
+                request_position = self._parse_position(geo_ip.lat_lon(ip))
             except (ValidationError, AddressNotFoundError):
                 request_position = self._parse_position(DEFAULT_POSITION)
 
@@ -128,12 +128,12 @@ class RequestCountryMiddleware:
         a parameter in the request.
         """
         ip = request.META.get(REMOTE_ADDR_ATTR, DEFAULT_IP).split(",")[0]
-        g = GeoIP2()
+        geo_ip = GeoIP2()
         if request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM):
             country_code = request.GET.get(OVERRIDE_COUNTRY_CODE_PARAM).lower()
         else:
             try:
-                country_code = g.country_code(ip)
+                country_code = geo_ip.country_code(ip)
             except (ValidationError, AddressNotFoundError):
                 country_code = DEFAULT_COUNTRY_CODE
         request.country = country_code
